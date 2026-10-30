@@ -1,0 +1,302 @@
+{
+  "streamchat/backend/cmd/api/main.go": {
+    "mtime": 1793260013.6397436,
+    "seen": 1793324877.8142111,
+    "ast_hash": "9f8d20d3df883c49a35c4a42090058a3",
+    "semantic_hash": "9f8d20d3df883c49a35c4a42090058a3"
+  },
+  "streamchat/backend/cmd/worker/main.go": {
+    "mtime": 1793264783.5253959,
+    "seen": 1793324877.8142169,
+    "ast_hash": "9a3a30f40fc950520b46752914355621",
+    "semantic_hash": "9a3a30f40fc950520b46752914355621"
+  },
+  "streamchat/backend/go.mod": {
+    "mtime": 1793263748.2596042,
+    "seen": 1793324877.81422,
+    "ast_hash": "0a122e400389a1d6fe1897be0a9121fe",
+    "semantic_hash": "0a122e400389a1d6fe1897be0a9121fe"
+  },
+  "streamchat/backend/internal/api/router.go": {
+    "mtime": 1793264835.9954498,
+    "seen": 1793324877.8142219,
+    "ast_hash": "deb674e993a6cf5c580f208f540d8bbc",
+    "semantic_hash": "deb674e993a6cf5c580f208f540d8bbc"
+  },
+  "streamchat/backend/internal/attachments/handler.go": {
+    "mtime": 1793261806.9666483,
+    "seen": 1793324877.814223,
+    "ast_hash": "9524a76b728d7e934e44b897e8d720b6",
+    "semantic_hash": "9524a76b728d7e934e44b897e8d720b6"
+  },
+  "streamchat/backend/internal/attachments/service.go": {
+    "mtime": 1793262339.8613186,
+    "seen": 1793324877.8142247,
+    "ast_hash": "2191c31bf24f218dee4b53e6b443eeff",
+    "semantic_hash": "2191c31bf24f218dee4b53e6b443eeff"
+  },
+  "streamchat/backend/internal/attachments/service_test.go": {
+    "mtime": 1793261835.2170238,
+    "seen": 1793324877.8142262,
+    "ast_hash": "d9056742dac4e0a167a2ac38cf5e6b92",
+    "semantic_hash": "d9056742dac4e0a167a2ac38cf5e6b92"
+  },
+  "streamchat/backend/internal/auth/handler.go": {
+    "mtime": 1793260118.7628484,
+    "seen": 1793324877.8142273,
+    "ast_hash": "32f2ab431e81ab3aba81a0f5e45eca59",
+    "semantic_hash": "32f2ab431e81ab3aba81a0f5e45eca59"
+  },
+  "streamchat/backend/internal/auth/password.go": {
+    "mtime": 1793259734.5204813,
+    "seen": 1793324877.814229,
+    "ast_hash": "3c29ae953ac1049e2ceb1c239760c3f9",
+    "semantic_hash": "3c29ae953ac1049e2ceb1c239760c3f9"
+  },
+  "streamchat/backend/internal/auth/password_test.go": {
+    "mtime": 1793260013.6407437,
+    "seen": 1793324877.8142302,
+    "ast_hash": "76a1befd503824c28c6ae0d1f7862bae",
+    "semantic_hash": "76a1befd503824c28c6ae0d1f7862bae"
+  },
+  "streamchat/backend/internal/auth/token.go": {
+    "mtime": 1793260013.6413386,
+    "seen": 1793324877.8142319,
+    "ast_hash": "f52b3ceaa5f4616e579a98e783493a50",
+    "semantic_hash": "f52b3ceaa5f4616e579a98e783493a50"
+  },
+  "streamchat/backend/internal/auth/token_test.go": {
+    "mtime": 1793260013.6416929,
+    "seen": 1793324877.8142335,
+    "ast_hash": "7322613e58964718eaa1e60140fc9ce2",
+    "semantic_hash": "7322613e58964718eaa1e60140fc9ce2"
+  },
+  "streamchat/backend/internal/config/config.go": {
+    "mtime": 1793263968.724032,
+    "seen": 1793324877.814235,
+    "ast_hash": "b84b1b06a343ae117105bd85c8bf2f5e",
+    "semantic_hash": "b84b1b06a343ae117105bd85c8bf2f5e"
+  },
+  "streamchat/backend/internal/config/config_test.go": {
+    "mtime": 1793265229.6263552,
+    "seen": 1793324877.8142362,
+    "ast_hash": "bf76d1a8ee3369de8dd725e55f80bd96",
+    "semantic_hash": "bf76d1a8ee3369de8dd725e55f80bd96"
+  },
+  "streamchat/backend/internal/conversations/handler.go": {
+    "mtime": 1793260297.5174272,
+    "seen": 1793324877.8142374,
+    "ast_hash": "215bced242ee18230c577506b264f52a",
+    "semantic_hash": "215bced242ee18230c577506b264f52a"
+  },
+  "streamchat/backend/internal/conversations/service.go": {
+    "mtime": 1793260672.606937,
+    "seen": 1793324877.814239,
+    "ast_hash": "c7562485100e566c99b5c9e3e1afc4bb",
+    "semantic_hash": "c7562485100e566c99b5c9e3e1afc4bb"
+  },
+  "streamchat/backend/internal/conversations/service_test.go": {
+    "mtime": 1793260197.0724163,
+    "seen": 1793324877.8142402,
+    "ast_hash": "92f3fc83e8f44d0c5fe804a4fe437a22",
+    "semantic_hash": "92f3fc83e8f44d0c5fe804a4fe437a22"
+  },
+  "streamchat/backend/internal/database/database.go": {
+    "mtime": 1793260013.6413386,
+    "seen": 1793324877.8142416,
+    "ast_hash": "dc7a04ff90d0f8e6a5b4328fefd2a6b8",
+    "semantic_hash": "dc7a04ff90d0f8e6a5b4328fefd2a6b8"
+  },
+  "streamchat/backend/internal/media/handler.go": {
+    "mtime": 1793265876.4353454,
+    "seen": 1793324877.8142428,
+    "ast_hash": "474833839bd3e8903b44e790113a4333",
+    "semantic_hash": "474833839bd3e8903b44e790113a4333"
+  },
+  "streamchat/backend/internal/media/jobs.go": {
+    "mtime": 1793265865.908134,
+    "seen": 1793324877.814244,
+    "ast_hash": "de1acdfbc77600ac9ff2c33e067e2b89",
+    "semantic_hash": "de1acdfbc77600ac9ff2c33e067e2b89"
+  },
+  "streamchat/backend/internal/media/jobs_test.go": {
+    "mtime": 1793263932.6863081,
+    "seen": 1793324877.8142457,
+    "ast_hash": "bccf32025d52d132addc2e4f32dd4201",
+    "semantic_hash": "bccf32025d52d132addc2e4f32dd4201"
+  },
+  "streamchat/backend/internal/media/runner.go": {
+    "mtime": 1793265776.4693377,
+    "seen": 1793324877.814247,
+    "ast_hash": "c344d4615dec4dfdb10f8c7943a6610f",
+    "semantic_hash": "c344d4615dec4dfdb10f8c7943a6610f"
+  },
+  "streamchat/backend/internal/media/runner_test.go": {
+    "mtime": 1793265819.3091981,
+    "seen": 1793324877.8142486,
+    "ast_hash": "f605c83ac9990cb2e142cc95b8b43fdf",
+    "semantic_hash": "f605c83ac9990cb2e142cc95b8b43fdf"
+  },
+  "streamchat/backend/internal/media/url.go": {
+    "mtime": 1793265137.356502,
+    "seen": 1793324877.8142498,
+    "ast_hash": "cc7a9a381c421e7b1225ae49d299fbc9",
+    "semantic_hash": "cc7a9a381c421e7b1225ae49d299fbc9"
+  },
+  "streamchat/backend/internal/media/url_test.go": {
+    "mtime": 1793263298.2115657,
+    "seen": 1793324877.814251,
+    "ast_hash": "b93211ceccc4c4490b0e6be01d1b4199",
+    "semantic_hash": "b93211ceccc4c4490b0e6be01d1b4199"
+  },
+  "streamchat/backend/internal/media/worker.go": {
+    "mtime": 1793265680.7454152,
+    "seen": 1793324877.8142524,
+    "ast_hash": "cdd46869832027aad2940f96195a759e",
+    "semantic_hash": "cdd46869832027aad2940f96195a759e"
+  },
+  "streamchat/backend/internal/messages/handler.go": {
+    "mtime": 1793260225.5449862,
+    "seen": 1793324877.8142536,
+    "ast_hash": "ce63289720bacb76acfe8df698d447f0",
+    "semantic_hash": "ce63289720bacb76acfe8df698d447f0"
+  },
+  "streamchat/backend/internal/messages/service.go": {
+    "mtime": 1793261065.5838048,
+    "seen": 1793324877.814255,
+    "ast_hash": "2e0fb43c0d7c487b9e67f16f26225c73",
+    "semantic_hash": "2e0fb43c0d7c487b9e67f16f26225c73"
+  },
+  "streamchat/backend/internal/messages/service_test.go": {
+    "mtime": 1793260197.0724163,
+    "seen": 1793324877.8142564,
+    "ast_hash": "638dcb023ffc2d3b507722b0265ff131",
+    "semantic_hash": "638dcb023ffc2d3b507722b0265ff131"
+  },
+  "streamchat/backend/internal/realtime/handler.go": {
+    "mtime": 1793260663.1132848,
+    "seen": 1793324877.8142576,
+    "ast_hash": "dceea1a39d50b29cc1b03676997a4f9c",
+    "semantic_hash": "dceea1a39d50b29cc1b03676997a4f9c"
+  },
+  "streamchat/backend/internal/realtime/hub.go": {
+    "mtime": 1793261159.544686,
+    "seen": 1793324877.8142593,
+    "ast_hash": "b3b92dc70118f490e33ad4b27c06e490",
+    "semantic_hash": "b3b92dc70118f490e33ad4b27c06e490"
+  },
+  "streamchat/backend/internal/realtime/hub_test.go": {
+    "mtime": 1793260719.3098722,
+    "seen": 1793324877.8142605,
+    "ast_hash": "40bdc3c19f016eec37ac9c4ba2eeb016",
+    "semantic_hash": "40bdc3c19f016eec37ac9c4ba2eeb016"
+  },
+  "streamchat/backend/internal/storage/local.go": {
+    "mtime": 1793261501.3635297,
+    "seen": 1793324877.814262,
+    "ast_hash": "825d4dad4ca93f8ec6c1ba3a99f04470",
+    "semantic_hash": "825d4dad4ca93f8ec6c1ba3a99f04470"
+  },
+  "streamchat/backend/internal/storage/local_test.go": {
+    "mtime": 1793261521.0249233,
+    "seen": 1793324877.8142633,
+    "ast_hash": "8ce4f0132ed6ef6881822f66f2e9e207",
+    "semantic_hash": "8ce4f0132ed6ef6881822f66f2e9e207"
+  },
+  "streamchat/backend/internal/storage/storage.go": {
+    "mtime": 1793261475.654015,
+    "seen": 1793324877.8142645,
+    "ast_hash": "18eeaacfe427b821cf2bb34bd3078688",
+    "semantic_hash": "18eeaacfe427b821cf2bb34bd3078688"
+  },
+  "streamchat/docker-compose.yml": {
+    "mtime": 1793266941.6447904,
+    "seen": 1793324877.814266,
+    "ast_hash": "151a0cfc62b5000a6d1974c6ad75774a",
+    "semantic_hash": "151a0cfc62b5000a6d1974c6ad75774a"
+  },
+  "streamchat/frontend/package.json": {
+    "mtime": 1793259856.3055937,
+    "seen": 1793324877.8142672,
+    "ast_hash": "75ac78149d6aa89739c829ccd9f5a295",
+    "semantic_hash": "75ac78149d6aa89739c829ccd9f5a295"
+  },
+  "streamchat/frontend/src/app/App.test.tsx": {
+    "mtime": 1793259994.6743639,
+    "seen": 1793324877.8142684,
+    "ast_hash": "94006049c344fad3897ed8f49f5939be",
+    "semantic_hash": "94006049c344fad3897ed8f49f5939be"
+  },
+  "streamchat/frontend/src/app/App.tsx": {
+    "mtime": 1793322665.4939172,
+    "seen": 1793324877.8142698,
+    "ast_hash": "84270f2ba9e1d6a1c55149e03cce5b58",
+    "semantic_hash": "84270f2ba9e1d6a1c55149e03cce5b58"
+  },
+  "streamchat/frontend/src/app/Chat.tsx": {
+    "mtime": 1793262534.2782233,
+    "seen": 1793324877.814271,
+    "ast_hash": "9850fb975afa36324762a24ad6a90290",
+    "semantic_hash": "9850fb975afa36324762a24ad6a90290"
+  },
+  "streamchat/frontend/src/app/apiTarget.test.ts": {
+    "mtime": 1793322174.7104454,
+    "seen": 1793324877.8142724,
+    "ast_hash": "a579f7025be77cd5c66f9dbb82d816db",
+    "semantic_hash": "a579f7025be77cd5c66f9dbb82d816db"
+  },
+  "streamchat/frontend/src/app/apiTarget.ts": {
+    "mtime": 1793322168.9703913,
+    "seen": 1793324877.8142738,
+    "ast_hash": "bcceb04999036d5efd98cd5642b06e3a",
+    "semantic_hash": "bcceb04999036d5efd98cd5642b06e3a"
+  },
+  "streamchat/frontend/src/app/authSession.test.ts": {
+    "mtime": 1793322646.339097,
+    "seen": 1793324877.814275,
+    "ast_hash": "5e4d93456d8561dcd740035ae8800f4d",
+    "semantic_hash": "5e4d93456d8561dcd740035ae8800f4d"
+  },
+  "streamchat/frontend/src/app/authSession.ts": {
+    "mtime": 1793322638.2387502,
+    "seen": 1793324877.8142772,
+    "ast_hash": "5706170ba634e0faf32988a27f81dbe8",
+    "semantic_hash": "5706170ba634e0faf32988a27f81dbe8"
+  },
+  "streamchat/frontend/src/app/validation.ts": {
+    "mtime": 1793259974.8129663,
+    "seen": 1793324877.8142784,
+    "ast_hash": "38a7056e1a6892d3ca6923224c1d9130",
+    "semantic_hash": "38a7056e1a6892d3ca6923224c1d9130"
+  },
+  "streamchat/frontend/src/app/virtualMessages.test.ts": {
+    "mtime": 1793262264.6798122,
+    "seen": 1793324877.8142798,
+    "ast_hash": "d4f146ad1f4fa6b370334107fa1c1fe8",
+    "semantic_hash": "d4f146ad1f4fa6b370334107fa1c1fe8"
+  },
+  "streamchat/frontend/src/app/virtualMessages.ts": {
+    "mtime": 1793262238.5827012,
+    "seen": 1793324877.814281,
+    "ast_hash": "fdccba11a531a1a9f735b43f5c46f2ab",
+    "semantic_hash": "fdccba11a531a1a9f735b43f5c46f2ab"
+  },
+  "streamchat/frontend/src/main.tsx": {
+    "mtime": 1793259856.3114216,
+    "seen": 1793324877.8142822,
+    "ast_hash": "8b7c409afa48d30c30461311e5f04f96",
+    "semantic_hash": "8b7c409afa48d30c30461311e5f04f96"
+  },
+  "streamchat/frontend/tsconfig.json": {
+    "mtime": 1793259856.2384257,
+    "seen": 1793324877.8142836,
+    "ast_hash": "923586d2c9ee7ab26d57315d544cd889",
+    "semantic_hash": "923586d2c9ee7ab26d57315d544cd889"
+  },
+  "streamchat/frontend/vite.config.ts": {
+    "mtime": 1793268009.9769917,
+    "seen": 1793324877.814285,
+    "ast_hash": "c22579b5dbe91b5c4688f3fcdbd6ad92",
+    "semantic_hash": "c22579b5dbe91b5c4688f3fcdbd6ad92"
+  }
+}
