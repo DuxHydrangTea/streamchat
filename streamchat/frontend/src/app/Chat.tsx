@@ -8,6 +8,9 @@ type MediaJob = { id: string; status: string; error_message?: string; title?: st
 type Message = { id: string; sender_id: string; sender_name: string; client_message_id: string; text_content: string; created_at: string; type?: string; media_job?: MediaJob }
 type User = { id: string; display_name: string }
 type Page = { messages: Message[]; next_cursor?: string; has_more: boolean }
+export function createConversationPayload(type: 'direct' | 'group', name: string, username: string) {
+  return { type, name, member_usernames: username.trim() ? [username.trim()] : [] }
+}
 export function filterConversations<T extends Conversation>(conversations: T[], query: string): T[] {
   const normalized = query.trim().toLowerCase()
   return normalized ? conversations.filter(conversation => (conversation.name || (conversation.type === 'direct' ? 'Direct conversation' : 'Group conversation')).toLowerCase().includes(normalized)) : conversations
@@ -15,6 +18,16 @@ export function filterConversations<T extends Conversation>(conversations: T[], 
 export function videoURL(text: string): string | undefined {
   const trimmed = text.trim()
   return /^https:\/\/\S+$/i.test(trimmed) ? trimmed : undefined
+}
+export function mediaJobProgress(status: string): { title: string; detail: string } | undefined {
+  switch (status) {
+    case 'queued': return { title: 'Queued for preparation', detail: 'The video will start processing shortly.' }
+    case 'fetching_metadata': return { title: 'Reading video information', detail: 'Checking the video before downloading.' }
+    case 'downloading': return { title: 'Downloading video', detail: 'The video is being downloaded.' }
+    case 'processing': return { title: 'Preparing video', detail: 'The video is being prepared for playback.' }
+    case 'uploading': return { title: 'Saving video', detail: 'Almost ready to play.' }
+    default: return undefined
+  }
 }
 
 async function api<T>(url: string, init?: RequestInit): Promise<T> {
@@ -39,7 +52,7 @@ export function Chat({ user, onSignOut }: { user: User; onSignOut: () => void })
   const [error, setError] = useState('')
   const [newType, setNewType] = useState<'direct' | 'group'>('direct')
   const [newName, setNewName] = useState('')
-  const [memberID, setMemberID] = useState('')
+  const [memberUsername, setMemberUsername] = useState('')
   const [olderCursor, setOlderCursor] = useState<string>()
   const [hasOlder, setHasOlder] = useState(false)
   const [unread, setUnread] = useState(0)
@@ -124,8 +137,8 @@ export function Chat({ user, onSignOut }: { user: User; onSignOut: () => void })
   async function createConversation(event: FormEvent) {
     event.preventDefault()
     try {
-      const created = await api<Conversation>('/api/v1/conversations', { method: 'POST', body: JSON.stringify({ type: newType, name: newName, member_ids: memberID ? [memberID] : [] }) })
-      setConversations(old => [created, ...old]); setSelected(created.id); setNewName(''); setMemberID('')
+      const created = await api<Conversation>('/api/v1/conversations', { method: 'POST', body: JSON.stringify(createConversationPayload(newType, newName, memberUsername)) })
+      setConversations(old => [created, ...old]); setSelected(created.id); setNewName(''); setMemberUsername('')
     } catch (e) { setError(e instanceof Error ? e.message : 'Unable to create conversation') }
   }
 
@@ -154,7 +167,7 @@ export function Chat({ user, onSignOut }: { user: User; onSignOut: () => void })
           <h2>Start a conversation</h2>
           <label>Conversation type<select value={newType} onChange={e => setNewType(e.target.value as 'direct' | 'group')}><option value="direct">Direct message</option><option value="group">Group conversation</option></select></label>
           {newType === 'group' && <label>Group name<input placeholder="e.g. Product team" value={newName} onChange={e => setNewName(e.target.value)} required /></label>}
-          <label>{newType === 'group' ? 'First member user ID' : 'User ID'}<input placeholder="Enter a user ID" value={memberID} onChange={e => setMemberID(e.target.value)} required /></label>
+          <label>{newType === 'group' ? 'First member username' : 'Username'}<input placeholder="Enter a username" value={memberUsername} onChange={e => setMemberUsername(e.target.value)} required autoComplete="off" /></label>
           <button className="secondary-action" type="submit"><PlusIcon /> Create conversation</button>
         </form>
       </div>
@@ -166,7 +179,7 @@ export function Chat({ user, onSignOut }: { user: User; onSignOut: () => void })
         {hasOlder && <button className="older" onClick={() => void loadOlder()}>Load earlier messages</button>}
         {loadingMessages ? <div className="message-loading" aria-label="Loading messages"><span /><span /><span /></div> : <>
           <div className="virtual-messages" style={{ height: `${virtualizer.getTotalSize()}px` }}>
-            {virtualizer.getVirtualItems().map(item => { const m = messages[item.index]; return <article data-index={item.index} ref={virtualizer.measureElement} className={`${m.sender_id === user.id ? 'message mine' : 'message'} virtual-message`} key={m.id} style={{ transform: `translateY(${item.start}px)` }}><small>{m.sender_id === user.id ? 'You' : m.sender_name}</small>{m.type === 'video' && m.media_job ? <div className="video-message">{m.media_job.status === 'completed' && m.media_job.playback_url ? <video controls preload="metadata" src={m.media_job.playback_url} /> : <div className="video-status"><strong>{m.media_job.status === 'failed' ? 'Video processing failed' : m.media_job.status === 'cancelled' ? 'Video processing cancelled' : 'Preparing video'}</strong><span>{m.media_job.status === 'failed' ? 'The original link is still available.' : m.media_job.status === 'cancelled' ? 'You can send the link again to retry.' : 'This usually takes a short while.'}</span>{m.media_job.status === 'failed' && <button onClick={() => void api(`/api/v1/media/jobs/${m.media_job!.id}/retry`, { method: 'POST' }).then(() => setMessages(old => old.map(item => item.id === m.id ? { ...item, media_job: { ...item.media_job!, status: 'queued', error_message: undefined } } : item))).catch(e => setError(e instanceof Error ? e.message : 'Retry failed'))}>Retry download</button>}</div>}{m.media_job.title && <strong className="video-title">{m.media_job.title}</strong>}{m.media_job.duration_seconds ? <small className="video-duration">{Math.floor(m.media_job.duration_seconds / 60)}:{String(Math.floor(m.media_job.duration_seconds % 60)).padStart(2, '0')}</small> : null}<a href={m.text_content} target="_blank" rel="noreferrer">Open source link</a></div> : <p>{m.text_content}</p>}<time>{new Date(m.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</time></article> })}
+            {virtualizer.getVirtualItems().map(item => { const m = messages[item.index]; return <article data-index={item.index} ref={virtualizer.measureElement} className={`${m.sender_id === user.id ? 'message mine' : 'message'} virtual-message`} key={m.id} style={{ transform: `translateY(${item.start}px)` }}><small>{m.sender_id === user.id ? 'You' : m.sender_name}</small>{m.type === 'video' && m.media_job ? <div className="video-message">{m.media_job.status === 'completed' && m.media_job.playback_url ? <video controls preload="metadata" src={m.media_job.playback_url} /> : <div className="video-status" role={mediaJobProgress(m.media_job.status) ? 'status' : undefined} aria-live={mediaJobProgress(m.media_job.status) ? 'polite' : undefined}><div className="video-status-heading">{mediaJobProgress(m.media_job.status) && <span className="video-spinner" aria-hidden="true" />}<strong>{m.media_job.status === 'failed' ? 'Video processing failed' : m.media_job.status === 'cancelled' ? 'Video processing cancelled' : mediaJobProgress(m.media_job.status)?.title}</strong></div><span>{m.media_job.status === 'failed' ? 'The original link is still available.' : m.media_job.status === 'cancelled' ? 'You can send the link again to retry.' : mediaJobProgress(m.media_job.status)?.detail}</span>{m.media_job.status === 'failed' && <button onClick={() => void api(`/api/v1/media/jobs/${m.media_job!.id}/retry`, { method: 'POST' }).then(() => setMessages(old => old.map(item => item.id === m.id ? { ...item, media_job: { ...item.media_job!, status: 'queued', error_message: undefined } } : item))).catch(e => setError(e instanceof Error ? e.message : 'Retry failed'))}>Retry download</button>}</div>}{m.media_job.title && <strong className="video-title">{m.media_job.title}</strong>}{m.media_job.duration_seconds ? <small className="video-duration">{Math.floor(m.media_job.duration_seconds / 60)}:{String(Math.floor(m.media_job.duration_seconds % 60)).padStart(2, '0')}</small> : null}<a href={m.text_content} target="_blank" rel="noreferrer">Open source link</a></div> : <p>{m.text_content}</p>}<time>{new Date(m.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</time></article> })}
           </div>
           {!messages.length && !loadingMessages && <div className="chat-empty"><span className="empty-icon"><MessageIcon /></span><h2>{selected ? 'Start the conversation' : 'Your conversations, together'}</h2><p>{selected ? 'Send a message or share a video link to get things moving.' : 'Choose a conversation from the sidebar, or create a new one to begin.'}</p>{!selected && <button onClick={() => setMobileSidebarOpen(true)}>Browse conversations</button>}</div>}
         </>}

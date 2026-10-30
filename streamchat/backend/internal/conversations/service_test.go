@@ -2,6 +2,19 @@ package conversations
 
 import "testing"
 
+func TestNormalizeUsernames(t *testing.T) {
+	got := NormalizeUsernames([]string{" Casey_1 ", "casey_1", "", "  ", "Jordan"})
+	want := []string{"casey_1", "jordan"}
+	if len(got) != len(want) {
+		t.Fatalf("NormalizeUsernames() = %#v, want %#v", got, want)
+	}
+	for i := range want {
+		if got[i] != want[i] {
+			t.Fatalf("NormalizeUsernames() = %#v, want %#v", got, want)
+		}
+	}
+}
+
 func TestValidateCreate(t *testing.T) {
 	valid := []struct {
 		kind, name string

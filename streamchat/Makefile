@@ -1,4 +1,6 @@
-.PHONY: test build dev up down
+.PHONY: test build dev up down migrate
+
+COMPOSE ?= docker compose
 
 test:
 	cd backend && go test ./...
@@ -9,10 +11,13 @@ build:
 	cd frontend && npm run build
 
 dev:
-	docker compose up --build
+	$(COMPOSE) up --build
 
 up:
-	docker compose up -d --build
+	$(COMPOSE) up -d --build
 
 down:
-	docker compose down
+	$(COMPOSE) down
+
+migrate:
+	$(COMPOSE) run --build --rm migrate

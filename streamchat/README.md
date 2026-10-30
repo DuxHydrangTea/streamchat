@@ -33,6 +33,20 @@ make dev
 
 Open `http://localhost:5173`. Compose builds the Goose migration CLI with the backend image and runs versioned SQL migrations before starting API and worker. To apply new migrations to an existing database, run `docker compose run --build --rm migrate`. Do not remove the PostgreSQL volume unless you intentionally want to delete all local database data.
 
+## Run with Podman Compose
+
+Podman uses an external Compose provider. On Windows, start the Podman machine first and run these commands from the project root (the directory containing `docker-compose.yml`):
+
+```powershell
+podman machine start
+podman compose version
+podman compose up --build
+```
+
+The foreground command starts PostgreSQL, Redis, runs migrations, and then starts the API, worker, and frontend. Open `http://localhost:5173`. For detached operation, use `podman compose up -d --build`; stop the services with `podman compose down`. To apply migrations separately, run `podman compose run --build --rm migrate`.
+
+Where Make is available, invoke targets with `make COMPOSE='podman compose' dev`; replace `dev` with `up`, `migrate`, or `down` as needed. On Windows without Make, use the direct Podman commands above. Configure `MEDIA_EGRESS_PROXY` to a controlled proxy before using media downloads. Do not remove the PostgreSQL volume unless you intentionally want to delete all local database data.
+
 ## Local media worker
 
 The worker is read-only except for its dedicated temporary and media volumes, runs as UID 10001, and has Compose CPU, memory, and process limits. Local downloads are disabled unless `MEDIA_EGRESS_PROXY` points to a controlled egress proxy. Do not expose a generic unrestricted proxy to the worker.

@@ -10,9 +10,10 @@ import (
 
 type Handler struct{ Service *Service }
 type createRequest struct {
-	Type      string   `json:"type" binding:"required"`
-	Name      string   `json:"name"`
-	MemberIDs []string `json:"member_ids"`
+	Type            string   `json:"type" binding:"required"`
+	Name            string   `json:"name"`
+	MemberIDs       []string `json:"member_ids"`
+	MemberUsernames []string `json:"member_usernames"`
 }
 
 func (h *Handler) Register(r gin.IRoutes) {
@@ -34,7 +35,7 @@ func (h *Handler) create(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "type is required"})
 		return
 	}
-	item, err := h.Service.Create(c.Request.Context(), c.GetString("user_id"), req.Type, req.Name, req.MemberIDs)
+	item, err := h.Service.Create(c.Request.Context(), c.GetString("user_id"), req.Type, req.Name, req.MemberIDs, req.MemberUsernames)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

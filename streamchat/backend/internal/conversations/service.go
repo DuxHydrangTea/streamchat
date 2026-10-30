@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/pgconn"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
@@ -42,7 +43,28 @@ func ValidateCreate(kind, name string, members []string) error {
 	return nil
 }
 
-func (s *Service) Create(ctx context.Context, creator, kind, name string, members []string) (Conversation, error) {
+func NormalizeUsernames(usernames []string) []string {
+	normalized := make([]string, 0, len(usernames))
+	seen := make(map[string]bool, len(usernames))
+	for _, username := range usernames {
+		username = strings.ToLower(strings.TrimSpace(username))
+		if username != "" && !seen[username] {
+			seen[username] = true
+			normalized = append(normalized, username)
+		}
+	}
+	return normalized
+}
+
+func (s *Service) Create(ctx context.Context, creator, kind, name string, members, usernames []string) (Conversation, error) {
+	byUsername := usernames != nil
+	if len(members) > 0 && byUsername {
+		return Conversation{}, errors.New("use member_ids or member_usernames, not both")
+	}
+	if byUsername {
+		usernames = NormalizeUsernames(usernames)
+		members = usernames
+	}
 	if err := ValidateCreate(kind, name, members); err != nil {
 		return Conversation{}, err
 	}
@@ -61,15 +83,36 @@ func (s *Service) Create(ctx context.Context, creator, kind, name string, member
 		return Conversation{}, err
 	}
 	for _, id := range members {
-		if id == "" || seen[id] {
+		if id == "" {
 			continue
 		}
+		if !byUsername && seen[id] {
+			return Conversation{}, errors.New("conversation member must be another user")
+		}
 		seen[id] = true
-		cmd, e := tx.Exec(ctx, `INSERT INTO conversation_members(conversation_id,user_id) SELECT $1,id FROM users WHERE id=$2 ON CONFLICT DO NOTHING`, c.ID, id)
+		var result pgconn.CommandTag
+		var e error
+		if byUsername {
+			var memberID string
+			e = tx.QueryRow(ctx, `SELECT id::text FROM users WHERE username=$1`, id).Scan(&memberID)
+			if e == pgx.ErrNoRows {
+				return Conversation{}, errors.New("member not found")
+			}
+			if e != nil {
+				return Conversation{}, e
+			}
+			if seen[memberID] {
+				return Conversation{}, errors.New("conversation member must be another user")
+			}
+			seen[memberID] = true
+			result, e = tx.Exec(ctx, `INSERT INTO conversation_members(conversation_id,user_id) VALUES($1,$2) ON CONFLICT DO NOTHING`, c.ID, memberID)
+		} else {
+			result, e = tx.Exec(ctx, `INSERT INTO conversation_members(conversation_id,user_id) SELECT $1,id FROM users WHERE id=$2 ON CONFLICT DO NOTHING`, c.ID, id)
+		}
 		if e != nil {
 			return Conversation{}, e
 		}
-		if cmd.RowsAffected() == 0 {
+		if result.RowsAffected() == 0 {
 			return Conversation{}, errors.New("member not found")
 		}
 	}
